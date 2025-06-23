@@ -1,0 +1,23 @@
+{
+  "name": "lyrics-parser",
+  "version": "1.0.0",
+  "description": "A TypeScript command-line tool for parsing lyrics into stanzas and verses with rhyme pattern analysis",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "lyrics-parser": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "parse": "ts-node src/cli.ts",
+    "start": "npm run build && node dist/cli.js"
+  },
+  "keywords": ["lyrics", "parser", "rhyme", "poetry", "cli"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  }
+}
