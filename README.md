@@ -26,10 +26,10 @@ npm install lyrics-prosody-analyzer
 ```typescript
 import { parseLyrics } from 'lyrics-prosody-analyzer';
 
-const lyrics = `Roses are red
-Violets are blue
-Sugar is sweet
-And so are you`;
+const lyrics = `The cat in the hat
+Makes me laugh today
+The moon shines bright
+In the pale moonlight`;
 
 const result = parseLyrics(lyrics);
 console.log(JSON.stringify(result, null, 2));
@@ -45,7 +45,7 @@ npm install -g lyrics-prosody-analyzer
 lyrics-prosody "Your lyrics here"
 
 # With title
-lyrics-prosody "Twinkle twinkle little star\\nHow I wonder what you are" "Nursery Rhyme"
+lyrics-prosody "The cat in the hat\\nMakes me laugh today\\nThe moon shines bright\\nIn the pale moonlight" "Example Poem"
 ```
 
 ### Local CLI Usage
@@ -100,38 +100,38 @@ interface Verse {
       "verses": [
         {
           "index": 1,
-          "text": "Roses are red",
+          "text": "The cat in the hat",
           "rhyme_index": "A",
-          "rhyming_syllable": "ed",
-          "rhyme_type": "rhyme",
-          "syllable_count": 3
+          "rhyming_syllable": "at",
+          "rhyme_type": "none",
+          "syllable_count": 5
         },
         {
           "index": 2,
-          "text": "Violets are blue",
+          "text": "Makes me laugh today",
           "rhyme_index": "B",
-          "rhyming_syllable": "ue",
-          "rhyme_type": "rhyme",
-          "syllable_count": 4
+          "rhyming_syllable": "ay",
+          "rhyme_type": "none",
+          "syllable_count": 6
         },
         {
           "index": 3,
-          "text": "Sugar is sweet",
+          "text": "The moon shines bright",
           "rhyme_index": "C",
-          "rhyming_syllable": "eet",
+          "rhyming_syllable": "ight",
           "rhyme_type": "rhyme",
-          "syllable_count": 3
+          "syllable_count": 5
         },
         {
           "index": 4,
-          "text": "And so are you",
-          "rhyme_index": "B",
-          "rhyming_syllable": "ue",
+          "text": "In the pale moonlight",
+          "rhyme_index": "C",
+          "rhyming_syllable": "ight",
           "rhyme_type": "rhyme",
-          "syllable_count": 3
+          "syllable_count": 6
         }
       ],
-      "rhyme_pattern": "ABCB"
+      "rhyme_pattern": "ABCC"
     }
   ]
 }
@@ -203,10 +203,10 @@ npm install
 ```typescript
 import { parseLyrics } from './src/index';
 
-const lyrics = `Twinkle, twinkle, little star
-How I wonder what you are
-Up above the world so high
-Like a diamond in the sky`;
+const lyrics = `The cat in the hat
+Makes me laugh today
+The moon shines bright
+In the pale moonlight`;
 
 const result = parseLyrics(lyrics);
 console.log(result);
@@ -243,18 +243,30 @@ interface Verse {
       "verses": [
         {
           "index": 1,
-          "text": "Twinkle, twinkle, little star",
+          "text": "The cat in the hat",
           "rhyme_index": "A",
-          "rhyming_syllable": "ar"
+          "rhyming_syllable": "at"
         },
         {
           "index": 2,
-          "text": "How I wonder what you are",
-          "rhyme_index": "A",
-          "rhyming_syllable": "are"
+          "text": "Makes me laugh today",
+          "rhyme_index": "B",
+          "rhyming_syllable": "ay"
+        },
+        {
+          "index": 3,
+          "text": "The moon shines bright",
+          "rhyme_index": "C",
+          "rhyming_syllable": "ight"
+        },
+        {
+          "index": 4,
+          "text": "In the pale moonlight",
+          "rhyme_index": "C",
+          "rhyming_syllable": "ight"
         }
       ],
-      "rhyme_pattern": "AA"
+      "rhyme_pattern": "ABCC"
     }
   ]
 }
