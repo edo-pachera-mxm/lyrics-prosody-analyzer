@@ -1,25 +1,31 @@
 # Lyrics Prosody Analyzer
 
-A powerful TypeScript library for analyzing the prosody of lyrics and poetry, including stanzas, verses, rhyme patterns, syllable counting, and Italian sinalefe support.
+A powerful TypeScript library for analyzing the prosody of lyrics and poetry, with support for English and Italian languages, including stanzas, verses, rhyme patterns, syllable counting, and advanced Italian sinalefe detection.
 
-## Features
+## 🌟 Features
 
 - 🎵 **Lyrics Parsing**: Parse lyrics into structured stanzas and verses
 - 🎭 **Rhyme Pattern Detection**: Automatically detect rhyme patterns (AABB, ABAB, ABCB, etc.)
 - 🔤 **Rhyme Classification**: Identify rhyme types (perfect rhyme, assonance, consonance)
 - 📏 **Syllable Counting**: Accurate syllable counting for English and Italian
+- 🌍 **Multi-Language Support**: Currently supports English and Italian
 - 🇮🇹 **Italian Sinalefe Support**: Advanced vowel elision detection for Italian poetry
 - 📊 **JSON Output**: Clean, structured JSON output for easy integration
 - 🛠️ **CLI Tool**: Command-line interface for quick analysis
 - 📦 **TypeScript**: Full TypeScript support with type definitions
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install lyrics-prosody-analyzer
 ```
 
-## Usage
+For global CLI usage:
+```bash
+npm install -g lyrics-prosody-analyzer
+```
+
+## 🚀 Quick Start
 
 ### As a Library
 
@@ -38,34 +44,34 @@ console.log(JSON.stringify(result, null, 2));
 ### As a CLI Tool
 
 ```bash
-# Install globally
-npm install -g lyrics-prosody-analyzer
-
-# Use the CLI
+# Basic usage
 lyrics-prosody "Your lyrics here"
 
-# With title
+# With custom title
 lyrics-prosody "The cat in the hat\\nMakes me laugh today\\nThe moon shines bright\\nIn the pale moonlight" "Example Poem"
+
+# JSON output
+lyrics-prosody "Your lyrics here" --json
 ```
 
-### Local CLI Usage
+### Local CLI Usage (without global installation)
 
 ```bash
-npm install lyrics-prosody-analyzer
 npx lyrics-prosody "Your lyrics here"
 ```
 
-## API Reference
+## 📖 API Reference
 
-### `parseLyrics(lyrics: string): ParsedLyrics`
+### Main Function
+
+#### `parseLyrics(lyrics: string): ParsedLyrics`
 
 Parses lyrics text and returns structured analysis.
 
 **Parameters:**
 - `lyrics` (string): The lyrics text to parse
 
-**Returns:** `ParsedLyrics` object containing:
-- `stanzas`: Array of stanza objects
+**Returns:** `ParsedLyrics` object containing analyzed stanzas
 
 ### Data Types
 
@@ -75,22 +81,48 @@ interface ParsedLyrics {
 }
 
 interface Stanza {
-  index: number;
-  verses: Verse[];
-  rhyme_pattern: string;
+  index: number;                    // Stanza number (1, 2, 3, ...)
+  verses: Verse[];                  // Array of verses in the stanza
+  rhyme_pattern: string;            // Pattern like "ABAB", "ABBA", etc.
 }
 
 interface Verse {
-  index: number;
-  text: string;
-  rhyme_index: string;
-  rhyming_syllable: string;
+  index: number;                    // Verse number within stanza (1, 2, 3, ...)
+  text: string;                     // The actual verse text
+  rhyme_index: string;              // Rhyme letter (A, B, C, ...)
+  rhyming_syllable: string;         // The detected rhyming sound
   rhyme_type: 'rhyme' | 'assonance' | 'consonance' | 'none';
-  syllable_count: number;
+  syllable_count: number;           // Number of syllables in the verse
 }
 ```
 
-## Example Output
+### Advanced Usage
+
+#### Using the LyricsParser Class
+
+```typescript
+import { LyricsParser } from 'lyrics-prosody-analyzer';
+
+const parser = new LyricsParser();
+const result = parser.parseLyrics(lyrics);
+```
+
+#### Utility Functions
+
+```typescript
+import { extractRhymingSyllable, wordsRhyme, getLastWord } from 'lyrics-prosody-analyzer';
+
+// Extract rhyming syllable from a word
+const syllable = extractRhymingSyllable("singing"); // Returns "ing"
+
+// Check if two words rhyme
+const doRhyme = wordsRhyme("cat", "hat"); // Returns true
+
+// Get the last word from a line
+const lastWord = getLastWord("The cat in the hat"); // Returns "hat"
+```
+
+## 📊 Example Output
 
 ```json
 {
@@ -137,40 +169,86 @@ interface Verse {
 }
 ```
 
-## Italian Poetry Support
+## 🌍 Language Support
 
-The library includes advanced support for Italian poetry:
+### English
+- Perfect rhyme detection based on phonetic similarities
+- Accurate syllable counting using common English patterns
+- Support for various rhyme types (perfect, assonance, consonance)
 
-- **Sinalefe Detection**: Automatic detection of vowel elision between words
-- **Accurate Syllable Counting**: Considers Italian phonetic rules
-- **Assonance Patterns**: Recognizes Italian assonance patterns
+### Italian 🇮🇹
+- **Sinalefe Detection**: Automatic detection of vowel elision between words for accurate syllable counting
+- **Italian Phonetic Rules**: Considers Italian-specific phonetic patterns
+- **Assonance Recognition**: Specialized detection of Italian assonance patterns
+
+#### Italian Example
 
 ```typescript
-const italianLyrics = \`Quando non c'era l'iPhone, l'alba senza il filtro
-Somigliava a Zion, le scritte in un dipinto\`;
+const italianLyrics = `Quando non c'era l'iPhone, l'alba senza il filtro
+Somigliava a Zion, le scritte in un dipinto`;
 
 const result = parseLyrics(italianLyrics);
 // Correctly detects assonance between "filtro" and "dipinto"
 // Applies sinalefe for accurate syllable counting
 ```
 
-## Rhyme Types
+## 🎭 Rhyme Analysis
 
-- **Perfect Rhyme**: Identical ending sounds (cat/hat, red/bed)
+### Rhyme Types
+
+- **Perfect Rhyme**: Identical ending sounds (cat/hat, bright/moonlight)
 - **Assonance**: Similar vowel sounds (filtro/dipinto in Italian)
 - **Consonance**: Similar consonant sounds
 - **None**: No rhyming relationship detected
 
-## Rhyme Patterns
+### Supported Rhyme Patterns
 
-Common patterns detected:
 - **AABB**: Couplets (consecutive rhyming lines)
 - **ABAB**: Alternating rhyme
 - **ABCB**: Second and fourth lines rhyme
-- **AAAA**: All lines rhyme
+- **ABBA**: Enclosed rhyme
+- **AAAA**: Monorhyme (all lines rhyme)
 - **ABCD**: No rhyming pattern
+- **Mixed patterns**: Complex combinations like ABCC, ABCDE, etc.
 
-## Contributing
+## ⚙️ How It Works
+
+1. **Stanza Splitting**: Lyrics are split into stanzas using double newlines
+2. **Verse Parsing**: Each stanza is split into individual verses (lines)
+3. **Rhyme Detection**: The last word of each verse is analyzed for rhyming sounds
+4. **Pattern Analysis**: Verses are compared to determine which ones rhyme
+5. **Pattern Assignment**: Each verse gets a rhyme index (A, B, C, etc.) and the overall pattern is determined
+6. **Syllable Counting**: Counts syllables considering language-specific rules (including Italian sinalefe)
+
+## 🔧 Development
+
+### Scripts
+
+```bash
+npm run build      # Compile TypeScript to JavaScript
+npm run parse      # Run CLI with ts-node (development)
+npm run start      # Build and run compiled CLI
+```
+
+### Project Structure
+
+```
+src/
+├── cli.ts           # Command-line interface
+├── index.ts         # Main library exports
+├── lyrics-parser.ts # Core parsing logic
+├── rhyme-utils.ts   # Rhyme detection utilities
+└── types.ts         # TypeScript type definitions
+```
+
+## ⚠️ Limitations
+
+- Rhyme detection is based on phonetic similarities and common patterns
+- Perfect accuracy for all types of rhymes may vary depending on language complexity
+- Currently optimized for English and Italian; other languages may have reduced accuracy
+- Works best with standard poetry and lyrics formats
+
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -178,156 +256,14 @@ Common patterns detected:
 4. Add tests if necessary
 5. Submit a pull request
 
-## License
+## 📄 License
 
 MIT License - see LICENSE file for details.
 
-## Author
+## 👤 Author
 
 Edoardo Pachera
 
-## Keywords
+## 🏷️ Keywords
 
-lyrics, prosody, poetry, rhyme, syllables, verse, stanza, parser, analyzer, typescript, italian, sinalefe, assonance, consonance, rhyme-pattern, meter, scansion
-
-## Installation
-
-```bash
-npm install
-```
-
-## Usage
-
-### Basic Usage
-
-```typescript
-import { parseLyrics } from './src/index';
-
-const lyrics = `The cat in the hat
-Makes me laugh today
-The moon shines bright
-In the pale moonlight`;
-
-const result = parseLyrics(lyrics);
-console.log(result);
-```
-
-### Output Structure
-
-```typescript
-interface ParsedLyrics {
-  stanzas: Stanza[];
-}
-
-interface Stanza {
-  index: number;           // Stanza number (1, 2, 3, ...)
-  verses: Verse[];         // Array of verses in the stanza
-  rhyme_pattern: string;   // Pattern like "ABAB", "ABBA", etc.
-}
-
-interface Verse {
-  index: number;           // Verse number within stanza (1, 2, 3, ...)
-  text: string;           // The actual verse text
-  rhyme_index: string;    // Rhyme letter (A, B, C, ...)
-  rhyming_syllable: string; // The detected rhyming sound
-}
-```
-
-## Example Output
-
-```json
-{
-  "stanzas": [
-    {
-      "index": 1,
-      "verses": [
-        {
-          "index": 1,
-          "text": "The cat in the hat",
-          "rhyme_index": "A",
-          "rhyming_syllable": "at"
-        },
-        {
-          "index": 2,
-          "text": "Makes me laugh today",
-          "rhyme_index": "B",
-          "rhyming_syllable": "ay"
-        },
-        {
-          "index": 3,
-          "text": "The moon shines bright",
-          "rhyme_index": "C",
-          "rhyming_syllable": "ight"
-        },
-        {
-          "index": 4,
-          "text": "In the pale moonlight",
-          "rhyme_index": "C",
-          "rhyming_syllable": "ight"
-        }
-      ],
-      "rhyme_pattern": "ABCC"
-    }
-  ]
-}
-```
-
-## Supported Rhyme Patterns
-
-The parser can detect various rhyme patterns including:
-- **AABB** - Couplets
-- **ABAB** - Alternating rhyme
-- **ABBA** - Enclosed rhyme
-- **AAAA** - Monorhyme
-- **ABCC, ABCD** - Mixed patterns
-- And many more combinations
-
-## Scripts
-
-- `npm test` - Run the test examples
-- `npm run build` - Compile TypeScript to JavaScript
-- `npm run dev` - Run the main index file
-
-## Advanced Usage
-
-### Using the LyricsParser Class
-
-```typescript
-import { LyricsParser } from './src/lyrics-parser';
-
-const parser = new LyricsParser();
-const result = parser.parseLyrics(lyrics);
-```
-
-### Utility Functions
-
-```typescript
-import { extractRhymingSyllable, wordsRhyme, getLastWord } from './src/rhyme-utils';
-
-// Extract rhyming syllable from a word
-const syllable = extractRhymingSyllable("singing"); // Returns "ing"
-
-// Check if two words rhyme
-const doRhyme = wordsRhyme("cat", "hat"); // Returns true
-
-// Get the last word from a line
-const lastWord = getLastWord("The cat in the hat"); // Returns "hat"
-```
-
-## How It Works
-
-1. **Stanza Splitting**: Lyrics are split into stanzas using double newlines
-2. **Verse Parsing**: Each stanza is split into individual verses (lines)
-3. **Rhyme Detection**: The last word of each verse is analyzed for rhyming sounds
-4. **Pattern Analysis**: Verses are compared to determine which ones rhyme
-5. **Pattern Assignment**: Each verse gets a rhyme index (A, B, C, etc.) and the overall pattern is determined
-
-## Limitations
-
-- Rhyme detection is based on phonetic similarities and common English patterns
-- Perfect accuracy for all types of rhymes may vary
-- Works best with standard English lyrics and poetry
-
-## License
-
-MIT
+lyrics, prosody, poetry, rhyme, syllables, verse, stanza, parser, analyzer, typescript, italian, sinalefe, assonance, consonance, rhyme-pattern, meter, scansion, english, multilingual
