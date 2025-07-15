@@ -1,5 +1,5 @@
 {
-  "name": "lyrics-parser",
+  "name": "lyrics-prosody-analyzer",
   "version": "1.0.0",
   "description": "A TypeScript command-line tool for parsing lyrics into stanzas and verses with rhyme pattern analysis",
   "main": "dist/index.js",
