@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "lyrics-parser": "dist/cli.js"
+    "lyrics-prosody-analyzer": "dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
