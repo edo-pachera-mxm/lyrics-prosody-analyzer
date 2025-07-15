@@ -10,7 +10,9 @@
   "scripts": {
     "build": "tsc",
     "parse": "ts-node src/cli.ts",
-    "start": "npm run build && node dist/cli.js"
+    "start": "npm run build && node dist/cli.js",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build"
   },
   "keywords": ["lyrics", "parser", "rhyme", "poetry", "cli"],
   "author": "",
